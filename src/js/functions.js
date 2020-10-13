@@ -10,7 +10,7 @@ export function get() {
         method: "GET",
       });
 
-      const data = await response.json();
+			const data = await response.json();
 
       contImages.innerHTML = "";
       data.forEach((prop) => {

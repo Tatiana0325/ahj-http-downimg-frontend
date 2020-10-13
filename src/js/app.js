@@ -19,6 +19,7 @@ winAddFile.addEventListener("drop", (event) => {
   winAddFile.classList.remove("carryover");
 
   const images = Array.from(event.dataTransfer.files);
+  console.log(images);
 
   const formData = new FormData();
   formData.append("file", images[0]);
