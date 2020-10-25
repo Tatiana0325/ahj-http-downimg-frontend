@@ -1,28 +1,74 @@
-import { get, some } from "./functions";
+const area = document.querySelector(".drop-area");
+const previewEl = document.querySelector(".previewEl");
+const overlapped = document.querySelector(".overlapped");
 
-const winAddFile = document.querySelector(".drop-area");
-const inputAddFile = document.querySelector(".add-file");
-
-winAddFile.addEventListener("dragover", (event) => {
-  event.preventDefault();
-
-  winAddFile.classList.add("carryover");
+area.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  area.classList.add("ddd");
 });
 
+function get() {
+  (async () => {
+    {
+      const response = await fetch("https://back-7-3.herokuapp.com/?catalog", {
+        method: "GET",
+      });
+
+      const data = await response.json();
+      console.log(data);
+
+      previewEl.innerHTML = "";
+      data.forEach((prop) => {
+        if (prop !== ".gitkeep") {
+          overlapped.value = null;
+          const imageContainer = document.createElement("div");
+          imageContainer.className = "element";
+          const img = document.createElement("img");
+          img.className = "image";
+          img.dataset.id = prop;
+          const cross = document.createElement("div");
+          cross.innerHTML = `<div class="cross"><img class="cross-png" src="./cross.png"></div>`;
+
+          img.src = `https://back-7-3.herokuapp.com/${prop}`;
+          imageContainer.appendChild(img);
+          imageContainer.appendChild(cross);
+          previewEl.appendChild(imageContainer);
+          cross.addEventListener("click", async (e) => {
+            (async () => {
+              {
+                const response = await fetch(
+                  `https://back-7-3.herokuapp.com/?${prop}`,
+                  {
+                    method: "DELETE",
+                  }
+                );
+                if (response.ok) {
+                  cross
+                    .closest(".element")
+                    .parentNode.removeChild(cross.closest(".element"));
+                }
+              }
+            })();
+          });
+        }
+      });
+    }
+  })();
+}
+
 window.addEventListener("load", () => {
+  console.log("hello world");
+
   get();
 });
 
-winAddFile.addEventListener("drop", (event) => {
-  event.preventDefault();
+area.addEventListener("drop", async (e) => {
+  e.preventDefault();
+  area.classList.remove("ddd");
 
-  winAddFile.classList.remove("carryover");
-
-  const images = Array.from(event.dataTransfer.files);
-  console.log(images);
-
+  const files = Array.from(event.dataTransfer.files);
   const formData = new FormData();
-  formData.append("file", images[0]);
+  formData.append("file", files[0]);
 
   (async () => {
     {
@@ -35,14 +81,34 @@ winAddFile.addEventListener("drop", (event) => {
   })();
 });
 
-winAddFile.addEventListener("click", () => {
-  inputAddFile.dispatchEvent(new MouseEvent("click"));
+function some(e) {
+  if (!e) {
+    return;
+  }
+  e.preventDefault();
+  const arr = Array.from(e.currentTarget.files);
+  const formData = new FormData();
+  formData.append("file", arr[0]);
+
+  (async () => {
+    {
+      const response = await fetch("https://back-7-3.herokuapp.com/", {
+        method: "POST",
+        body: formData,
+      });
+    }
+    get();
+  })();
+}
+
+area.addEventListener("click", () => {
+  overlapped.dispatchEvent(new MouseEvent("click"));
 });
 
-inputAddFile.addEventListener("click", () => {
+overlapped.addEventListener("click", () => {
   some();
 });
 
-inputAddFile.addEventListener("change", (e) => {
+overlapped.addEventListener("change", (e) => {
   some(e);
 });
