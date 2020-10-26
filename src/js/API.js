@@ -38,7 +38,7 @@ class API {
 }
 
 (async () => {
-  const api = new API("https://apps-neww.herokuapp.com/contacts");
+  const api = new API("https://ahj-http-downimg-backend.herokuapp.com/contacts");
   {
     const response = await api.load();
     const data = await response.json();

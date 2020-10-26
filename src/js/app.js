@@ -10,7 +10,7 @@ area.addEventListener("dragover", (e) => {
 function get() {
   (async () => {
     {
-      const response = await fetch("https://back-7-3.herokuapp.com/?catalog", {
+      const response = await fetch("https://ahj-http-downimg-backend.herokuapp.com/?catalog", {
         method: "GET",
       });
 
@@ -29,7 +29,7 @@ function get() {
           const cross = document.createElement("div");
           cross.innerHTML = `<div class="cross"><img class="cross-png" src="./cross.png"></div>`;
 
-          img.src = `https://back-7-3.herokuapp.com/${prop}`;
+          img.src = `https://ahj-http-downimg-backend.herokuapp.com/${prop}`;
           imageContainer.appendChild(img);
           imageContainer.appendChild(cross);
           previewEl.appendChild(imageContainer);
@@ -37,7 +37,7 @@ function get() {
             (async () => {
               {
                 const response = await fetch(
-                  `https://back-7-3.herokuapp.com/?${prop}`,
+                  `https://ahj-http-downimg-backend.herokuapp.com/?${prop}`,
                   {
                     method: "DELETE",
                   }
@@ -72,7 +72,7 @@ area.addEventListener("drop", async (e) => {
 
   (async () => {
     {
-      const response = await fetch("https://back-7-3.herokuapp.com/", {
+      const response = await fetch("https://ahj-http-downimg-backend.herokuapp.com/", {
         method: "POST",
         body: formData,
       });
@@ -92,7 +92,7 @@ function some(e) {
 
   (async () => {
     {
-      const response = await fetch("https://back-7-3.herokuapp.com/", {
+      const response = await fetch("https://ahj-http-downimg-backend.herokuapp.com/", {
         method: "POST",
         body: formData,
       });
